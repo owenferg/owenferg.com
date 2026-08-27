@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html,
+      body {
+        background: #000;
+      }
+
+      html.site-loading body {
+        visibility: hidden;
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add("site-loading");
+      document.addEventListener("DOMContentLoaded", () => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            document.documentElement.classList.remove("site-loading");
+            document.documentElement.classList.add("site-ready");
+          });
+        });
+      }, { once: true });
+    </script>
+    <title>owen ferguson</title>
+    <meta
+      name="description"
+      content="The portfolio of web cartographer, developer, and designer Owen Ferguson."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <section class="map-frame" aria-labelledby="map-title">
+        <div
+          id="map-stage"
+          class="map-stage"
+          data-map-layout="personal"
+        ></div>
+
+        <a
+          class="mapbox-logo"
+          href="https://www.mapbox.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mapbox"
+        >
+          <svg viewBox="0 0 23 23" aria-hidden="true">
+            <path d="M11.5 2.25a9.25 9.25 0 1 1 0 18.5 9.25 9.25 0 0 1 0-18.5Zm.86 3.58a4.4 4.4 0 0 0-3.13 1.28c-3.06 3.07-2.28 8.54-2.23 8.87 0 0 5.72.95 8.89-2.21a4.4 4.4 0 0 0 1.28-3.13 4.8 4.8 0 0 0-4.81-4.81Zm.14 1.87.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z" />
+          </svg>
+          <span>mapbox</span>
+        </a>
+
+        <p id="map-description" class="visually-hidden">
+          Use the previous and next buttons to explore county-level United States maps.
+        </p>
+
+        <div class="map-meta" data-map-meta>
+          <ol id="map-legend" class="map-legend" aria-label="Map legend">
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="0"></span>
+              <span class="map-legend-label" data-legend-label="0"></span>
+            </li>
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="1"></span>
+              <span class="map-legend-label" data-legend-label="1"></span>
+            </li>
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="2"></span>
+              <span class="map-legend-label" data-legend-label="2"></span>
+            </li>
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="3"></span>
+              <span class="map-legend-label" data-legend-label="3"></span>
+            </li>
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="4"></span>
+              <span class="map-legend-label" data-legend-label="4"></span>
+            </li>
+          </ol>
+          <p class="map-source-line" data-map-source-line>source: <a id="map-source" href="https://www.census.gov/data.html" target="_blank" rel="noopener noreferrer">U.S. Census Bureau</a></p>
+        </div>
+
+        <nav class="map-picker" aria-label="Choose a map">
+          <button id="map-previous" class="map-picker-button" type="button" aria-label="Previous map">
+            <span aria-hidden="true">&lt;</span>
+          </button>
+          <p id="map-title" class="map-picker-title" aria-live="polite">owenferg.com</p>
+          <button id="map-next" class="map-picker-button" type="button" aria-label="Next map">
+            <span aria-hidden="true">&gt;</span>
+          </button>
+        </nav>
+      </section>
+
+      <div class="identity">
+        <p class="heading">Owen Ferguson</p>
+        <p>web cartographer, developer, and designer</p>
+        <p>say hello: <a class="mail" href="mailto:owen@owenferg.com">owen@owenferg.com</a></p>
+      </div>
+
+      <a class="scroll-cue" href="#work">
+        <span>view my projects</span>
+      </a>
+
+      <section id="work" class="work">
+        <div class="work-col">
+          <p class="heading">my professional work</p>
+
+          <div class="project">
+            <a class="heading project-name" href="https://apps.usgs.gov/western-migrations/" target="_blank" rel="noopener noreferrer">USGS Western Migrations</a>
+            <p>designed desktop &amp; mobile ui/ux for western migrations, an interactive map and data source with over 182 herd migrations in the western united states</p>
+            <a class="read-more" href="https://cas.uoregon.edu/news/following-herd-infographics-lab-works-track-wildlife-migration" target="_blank" rel="noopener noreferrer">read about my contributions</a>
+          </div>
+
+          <div class="project">
+            <a class="heading project-name" href="https://www.cms.int/gium" target="_blank" rel="noopener noreferrer">CMS Global Initiative of Ungulate Migration (GIUM)</a>
+            <p>designed desktop &amp; mobile ui/ux for GIUM, an always-updating interactive map and data source for various animal herd and species migrations across the globe</p>
+            <a class="read-more" href="https://cartogis.org/docs/map_competition/CaGIS_Map_Design_Competition_Results_2025.pdf" target="_blank" rel="noopener noreferrer">best in show CaGIS 2025 map design competition</a>
+          </div>
+
+          <div class="project">
+            <a class="heading project-name" href="https://cami.cms.int/atlas-central-asian-mammals-initiative" target="_blank" rel="noopener noreferrer">CMS Central Asian Mammals and Linear Infrastructure (CAMI) Atlas</a>
+            <p>designed desktop ui/ux for CAMI, an interactive atlas and data source for 10 species in central asia</p>
+          </div>
+
+          <div class="project">
+            <a class="heading project-name" href="https://github.com/owenferg/arrowhead-tools" target="_blank" rel="noopener noreferrer">arrowhead-tools</a>
+            <p>created an ArcGIS Pro python toolbox script to automate and streamline the process of updating and adding map layers to GIUM, generalized to be used in other GIS projects</p>
+          </div>
+        </div>
+
+        <div class="work-col">
+          <p class="heading">my independent work</p>
+
+          <div class="project">
+            <a class="heading project-name" href="https://discoverwiki.app/" target="_blank" rel="noopener noreferrer">discoverWiki</a>
+            <p>a mobile game for exploring the world, one wikipedia article at a time</p>
+          </div>
+
+          <div class="project">
+            <a class="heading project-name" href="https://catcafes.owenferg.com" target="_blank" rel="noopener noreferrer">cat cafe map</a>
+            <p>a simple web map to find cat cafes in the united states &amp; canada, a healing experience with feline friends</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="map-tooltip" class="county-hover" role="tooltip" hidden>
+      <span class="county-hover-name"></span>
+      <span class="county-hover-value"></span>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "owenferg-com",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Owen Ferguson's cartography, development, and design portfolio.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "typecheck": "tsc --noEmit",
+    "data:generate": "node scripts/generate-county-data.mjs",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owenferg/owenfergdotcom.git"
+  },
+  "homepage": "https://owenferg.com",
+  "author": "Owen Ferguson",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/d3-geo": "^3.1.1",
+    "@types/geojson": "^7946.0.16",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "adm-zip": "^0.6.0",
+    "d3-dsv": "^3.0.1",
+    "shapefile": "^0.6.6",
+    "topojson-server": "^3.0.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3"
+  }
+}
