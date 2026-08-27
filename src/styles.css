@@ -438,6 +438,32 @@ html.reveal-enabled .work-reveal-item.is-revealed {
   font-size: 14px;
 }
 
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+}
+
+.social-link {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--text-primary);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.social-link:focus-visible {
+  outline: 1px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
 @media (min-width: 700px) {
   .page {
     padding: 40px 0 64px;
