@@ -441,6 +441,7 @@ html.reveal-enabled .work-reveal-item.is-revealed {
 .social-links {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.75rem;
   margin-top: 3rem;
 }
@@ -451,6 +452,7 @@ html.reveal-enabled .work-reveal-item.is-revealed {
   width: 2rem;
   height: 2rem;
   color: var(--text-primary);
+  text-decoration: none;
 }
 
 .social-link svg {
@@ -459,7 +461,22 @@ html.reveal-enabled .work-reveal-item.is-revealed {
   fill: currentColor;
 }
 
-.social-link:focus-visible {
+.resume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2rem;
+  color: var(--text-primary);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.resume-link i {
+  font-size: 12px;
+}
+
+.social-link:focus-visible,
+.resume-link:focus-visible {
   outline: 1px solid var(--focus-ring);
   outline-offset: 2px;
 }
