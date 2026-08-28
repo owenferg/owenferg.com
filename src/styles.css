@@ -219,6 +219,11 @@ html.site-ready .page {
   list-style: none;
 }
 
+.map-legend--personal-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .map-legend[data-legend-count="2"] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }

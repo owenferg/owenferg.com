@@ -180,6 +180,8 @@ function applyMode(mode: MapMode): void {
     );
     renderer.setLayout("personal");
     renderer.setFills(new Map(), PERSONAL_FILL);
+    legendElement.classList.add("map-legend--personal-hidden");
+    legendElement.setAttribute("aria-hidden", "true");
     updateLegend(
       [PERSONAL_SELECTED_FILL, PERSONAL_FILL],
       ["my domain name", "not my domain name"],
@@ -195,6 +197,8 @@ function applyMode(mode: MapMode): void {
   renderer.svg.setAttribute("aria-label", definition.ariaLabel);
   renderer.setLayout("statistics");
   renderer.setFills(getModeFills(definition), NO_DATA_FILL);
+  legendElement.classList.remove("map-legend--personal-hidden");
+  legendElement.removeAttribute("aria-hidden");
   updateLegend(definition.colors, definition.legendLabels);
   sourceLineElement.hidden = false;
   sourceLineElement.classList.remove("is-placeholder");
