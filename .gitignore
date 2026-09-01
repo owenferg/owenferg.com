@@ -1,6 +1,7 @@
 node_modules
 dist
 .vite
+.cache/lastfm-state-artists/
 .env
 .env.*
 !.env.example

@@ -74,7 +74,7 @@
         </a>
 
         <p id="map-description" class="visually-hidden">
-          Use the previous and next buttons to explore county-level United States maps.
+          Use the previous and next buttons to explore United States maps.
         </p>
 
         <div class="map-meta" data-map-meta>
@@ -99,8 +99,17 @@
               <span class="map-legend-swatch" data-legend-swatch="4"></span>
               <span class="map-legend-label" data-legend-label="4"></span>
             </li>
+            <li class="map-legend-step">
+              <span class="map-legend-swatch" data-legend-swatch="5"></span>
+              <span class="map-legend-label" data-legend-label="5"></span>
+            </li>
           </ol>
-          <p class="map-source-line" data-map-source-line>source: <a id="map-source" href="https://www.census.gov/data.html" target="_blank" rel="noopener noreferrer">U.S. Census Bureau</a></p>
+          <p class="map-source-line" data-map-source-line>
+            source:
+            <a id="map-source" href="https://www.census.gov/data.html" target="_blank" rel="noopener noreferrer">U.S. Census Bureau</a><span data-map-source-secondary hidden>
+              and
+              <a id="map-source-secondary" href="https://musicbrainz.org/" target="_blank" rel="noopener noreferrer">MusicBrainz</a></span>
+          </p>
         </div>
 
         <nav class="map-picker" aria-label="Choose a map">
@@ -202,6 +211,7 @@
     <div id="map-tooltip" class="county-hover" role="tooltip" hidden>
       <span class="county-hover-name"></span>
       <span class="county-hover-value"></span>
+      <span class="county-hover-artists"></span>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

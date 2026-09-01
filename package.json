@@ -9,6 +9,8 @@
     "build": "tsc && vite build",
     "typecheck": "tsc --noEmit",
     "data:generate": "node scripts/generate-county-data.mjs",
+    "data:lastfm": "node scripts/generate-lastfm-state-artists.mjs",
+    "test:data:lastfm": "node --test scripts/test/lastfm-state-artists.test.mjs",
     "preview": "vite preview"
   },
   "repository": {

@@ -30,14 +30,14 @@
   --focus-ring: #f4d35e;
 }
 
-:root[data-map-theme="density"] {
-  --text-primary: #e8fff8;
-  --text-muted: #90aca7;
-  --accent: #8ae6c6;
-  --divider: #203633;
-  --map-line: #d8fff4;
-  --tooltip-border: #8ae6c6;
-  --focus-ring: #8ae6c6;
+:root[data-map-theme="music"] {
+  --text-primary: #fff0fb;
+  --text-muted: #b69aac;
+  --accent: #f1a2dd;
+  --divider: #39283a;
+  --map-line: #ffe1f6;
+  --tooltip-border: #f1a2dd;
+  --focus-ring: #f1a2dd;
 }
 
 :root[data-map-theme="income"] {
@@ -125,7 +125,8 @@ html.site-ready .page {
   opacity: 0;
 }
 
-#map-stage .county-map__county {
+#map-stage .county-map__county,
+#map-stage .county-map__state {
   outline: none;
   stroke: var(--map-line);
   stroke-opacity: 0.14;
@@ -133,11 +134,13 @@ html.site-ready .page {
   vector-effect: non-scaling-stroke;
 }
 
-.map-frame.is-switching .county-map__county {
+.map-frame.is-switching .county-map__county,
+.map-frame.is-switching .county-map__state {
   transition: none;
 }
 
-#map-stage .county-map__county:focus-visible {
+#map-stage .county-map__county:focus-visible,
+#map-stage .county-map__state:focus-visible {
   stroke: var(--focus-ring);
   stroke-opacity: 1;
   stroke-width: 2px;
@@ -219,6 +222,10 @@ html.site-ready .page {
   list-style: none;
 }
 
+.map-legend[data-legend-count="6"] {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .map-legend--personal-hidden {
   visibility: hidden;
   pointer-events: none;
@@ -264,7 +271,8 @@ html.site-ready .page {
   visibility: hidden;
 }
 
-#map-source {
+#map-source,
+#map-source-secondary {
   color: inherit;
   text-underline-offset: 0.15em;
 }
@@ -312,7 +320,8 @@ html.site-ready .page {
 }
 
 .county-hover-name,
-.county-hover-value {
+.county-hover-value,
+.county-hover-artists {
   display: block;
   overflow: hidden;
   color: inherit;
@@ -330,6 +339,21 @@ html.site-ready .page {
 
 .county-hover-value:empty {
   display: none;
+}
+
+.county-hover-artists {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 11px;
+  white-space: normal;
+}
+
+.county-hover-artists:empty {
+  display: none;
+}
+
+.county-hover-artist {
+  display: block;
 }
 
 .visually-hidden {

@@ -10,15 +10,28 @@ import type {
   Geometry,
   GeoJsonProperties,
 } from "geojson";
-import { feature } from "topojson-client";
-import type { GeometryCollection, Topology } from "topojson-specification";
+import { feature, merge } from "topojson-client";
+import type {
+  GeometryCollection,
+  MultiPolygon as TopologyMultiPolygon,
+  Polygon as TopologyPolygon,
+  Topology,
+} from "topojson-specification";
 
 export type CountyMapLayout = "personal" | "statistics";
 export type CountyMapRegion = "conus" | "alaska" | "hawaii";
+export type CountyMapGeography = "county" | "state";
 
 export type CountyProperties = GeoJsonProperties & {
   name?: string;
   state?: string;
+  NAME?: string;
+  STUSPS?: string;
+};
+
+export type StateProperties = GeoJsonProperties & {
+  abbreviation: string;
+  stateFips: string;
 };
 
 export type CountyTopology = Topology<{
@@ -35,6 +48,16 @@ export type CountyPointerDetails = {
   originalEvent: PointerEvent;
 };
 
+export type StatePointerDetails = {
+  state: string;
+  region: CountyMapRegion;
+  clientX: number;
+  clientY: number;
+  pointerType: string;
+  properties: StateProperties;
+  originalEvent: PointerEvent;
+};
+
 export type CountySvgRendererOptions = {
   topology: CountyTopology;
   selectedFips?: Iterable<string>;
@@ -48,15 +71,25 @@ export type CountySvgRendererOptions = {
   onCountyMove?: (details: CountyPointerDetails) => void;
   onCountyLeave?: (details: CountyPointerDetails) => void;
   onCountyTap?: (details: CountyPointerDetails) => void;
+  onStateEnter?: (details: StatePointerDetails) => void;
+  onStateMove?: (details: StatePointerDetails) => void;
+  onStateLeave?: (details: StatePointerDetails) => void;
+  onStateTap?: (details: StatePointerDetails) => void;
 };
 
 type CountyFeature = Feature<Geometry, CountyProperties> & { id: string };
+type StateFeature = Feature<Geometry, StateProperties> & { id: string };
 
 type RegionLayer = {
   group: SVGGElement;
+  countyGroup: SVGGElement;
+  stateGroup: SVGGElement;
   counties: CountyFeature[];
+  states: StateFeature[];
   countyByFips: Map<string, CountyFeature>;
-  paths: Map<string, SVGPathElement>;
+  stateByAbbreviation: Map<string, StateFeature>;
+  countyPaths: Map<string, SVGPathElement>;
+  statePaths: Map<string, SVGPathElement>;
 };
 
 type Extent = [[number, number], [number, number]];
@@ -118,7 +151,7 @@ const VALID_STATE_FIPS = new Set([
   "56",
 ]);
 
-/** renders county TopoJSON in one responsive SVG */
+/** renders county or merged-state TopoJSON in one responsive SVG */
 export class CountySvgRenderer {
   readonly svg: SVGSVGElement;
 
@@ -131,7 +164,8 @@ export class CountySvgRenderer {
   private fills = new Map<string, string>();
   private fallbackFill: string;
   private layout: CountyMapLayout = "personal";
-  private hoveredFips: string | null = null;
+  private geography: CountyMapGeography = "county";
+  private hoveredFeature: string | null = null;
   private resizeFrame: number | null = null;
   private destroyed = false;
 
@@ -149,19 +183,25 @@ export class CountySvgRenderer {
     );
     this.fallbackFill = options.defaultFill ?? "#141414";
 
-    const regions = splitCounties(options.topology);
+    const countyRegions = splitCounties(options.topology);
+    const stateRegions = splitStates(options.topology);
     this.svg = createSvgElement("svg");
-    this.svg.classList.add("county-map", "county-map--personal");
+    this.svg.classList.add(
+      "county-map",
+      "county-map--personal",
+      "county-map--counties",
+    );
     this.svg.setAttribute("viewBox", "0 0 960 600");
     this.svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
     this.svg.setAttribute("role", "img");
     this.svg.setAttribute("aria-label", options.ariaLabel ?? "United States county map");
     this.svg.setAttribute("data-layout", this.layout);
+    this.svg.setAttribute("data-geography", this.geography);
 
     this.layers = {
-      conus: this.createRegionLayer("conus", regions.conus),
-      alaska: this.createRegionLayer("alaska", regions.alaska),
-      hawaii: this.createRegionLayer("hawaii", regions.hawaii),
+      conus: this.createRegionLayer("conus", countyRegions.conus, stateRegions.conus),
+      alaska: this.createRegionLayer("alaska", countyRegions.alaska, stateRegions.alaska),
+      hawaii: this.createRegionLayer("hawaii", countyRegions.hawaii, stateRegions.hawaii),
     };
 
     this.container.replaceChildren(this.svg);
@@ -171,7 +211,7 @@ export class CountySvgRenderer {
     this.resizeObserver = new ResizeObserver(this.scheduleResize);
     this.resizeObserver.observe(this.container);
     this.renderGeometry();
-    this.paintCounties();
+    this.paintFeatures();
   }
 
   /** changes between full CONUS and the three-region statistics composition */
@@ -183,18 +223,32 @@ export class CountySvgRenderer {
     this.svg.classList.toggle("county-map--personal", layout === "personal");
     this.svg.classList.toggle("county-map--statistics", layout === "statistics");
     this.renderGeometry();
-    this.paintCounties();
+    this.paintFeatures();
   }
 
-  /** updates statistical fills without rebuilding county paths */
+  /** switches between county boundaries and merged state shapes */
+  setGeography(geography: CountyMapGeography): void {
+    if (this.destroyed || geography === this.geography) return;
+
+    this.geography = geography;
+    this.hoveredFeature = null;
+    this.svg.dataset.geography = geography;
+    this.svg.classList.toggle("county-map--counties", geography === "county");
+    this.svg.classList.toggle("county-map--states", geography === "state");
+    this.updateGeographyVisibility();
+    this.renderGeometry();
+    this.paintFeatures();
+  }
+
+  /** updates data fills without rebuilding paths */
   setFills(fills: ReadonlyMap<string, string>, fallbackFill = this.fallbackFill): void {
     if (this.destroyed) return;
 
     this.fills = new Map(
-      Array.from(fills, ([fips, color]) => [normalizeFips(fips), color]),
+      Array.from(fills, ([key, color]) => [normalizeFillKey(key), color]),
     );
     this.fallbackFill = fallbackFill;
-    this.paintCounties();
+    this.paintFeatures();
   }
 
   /** releases observers and listeners before removing the SVG */
@@ -210,13 +264,24 @@ export class CountySvgRenderer {
   private createRegionLayer(
     region: CountyMapRegion,
     counties: CountyFeature[],
+    states: StateFeature[],
   ): RegionLayer {
     const group = createSvgElement("g");
     group.classList.add("county-map__region", `county-map__region--${region}`);
     group.dataset.region = region;
     this.svg.append(group);
 
-    const paths = new Map<string, SVGPathElement>();
+    const countyGroup = createSvgElement("g");
+    countyGroup.classList.add("county-map__geography", "county-map__geography--county");
+    group.append(countyGroup);
+
+    const stateGroup = createSvgElement("g");
+    stateGroup.classList.add("county-map__geography", "county-map__geography--state");
+    stateGroup.style.display = "none";
+    stateGroup.setAttribute("aria-hidden", "true");
+    group.append(stateGroup);
+
+    const countyPaths = new Map<string, SVGPathElement>();
     for (const county of counties) {
       const countyPath = createSvgElement("path");
       countyPath.classList.add("county-map__county");
@@ -225,15 +290,33 @@ export class CountySvgRenderer {
       countyPath.setAttribute("vector-effect", "non-scaling-stroke");
       countyPath.setAttribute("stroke", this.options.lineColor ?? "#2a2a2a");
       countyPath.setAttribute("stroke-width", "0.5");
-      group.append(countyPath);
-      paths.set(county.id, countyPath);
+      countyGroup.append(countyPath);
+      countyPaths.set(county.id, countyPath);
+    }
+
+    const statePaths = new Map<string, SVGPathElement>();
+    for (const state of states) {
+      const statePath = createSvgElement("path");
+      statePath.classList.add("county-map__state");
+      statePath.dataset.state = state.id;
+      statePath.dataset.region = region;
+      statePath.setAttribute("vector-effect", "non-scaling-stroke");
+      statePath.setAttribute("stroke", this.options.lineColor ?? "#2a2a2a");
+      statePath.setAttribute("stroke-width", "0.75");
+      stateGroup.append(statePath);
+      statePaths.set(state.id, statePath);
     }
 
     return {
       group,
+      countyGroup,
+      stateGroup,
       counties,
+      states,
       countyByFips: new Map(counties.map((county) => [county.id, county])),
-      paths,
+      stateByAbbreviation: new Map(states.map((state) => [state.id, state])),
+      countyPaths,
+      statePaths,
     };
   }
 
@@ -273,12 +356,14 @@ export class CountySvgRenderer {
   }
 
   private drawRegion(layer: RegionLayer, projection: GeoProjection, extent: Extent): void {
-    const collection = toFeatureCollection(layer.counties);
+    const features = this.geography === "county" ? layer.counties : layer.states;
+    const collection = toFeatureCollection(features);
     projection.fitExtent(extent, collection);
     const makePath = geoPath(projection);
 
-    for (const county of layer.counties) {
-      layer.paths.get(county.id)?.setAttribute("d", makePath(county) ?? "");
+    const paths = this.geography === "county" ? layer.countyPaths : layer.statePaths;
+    for (const mapFeature of features) {
+      paths.get(String(mapFeature.id))?.setAttribute("d", makePath(mapFeature) ?? "");
     }
   }
 
@@ -287,12 +372,22 @@ export class CountySvgRenderer {
     layer.group.setAttribute("aria-hidden", String(!visible));
   }
 
-  private paintCounties(): void {
+  private updateGeographyVisibility(): void {
+    for (const layer of Object.values(this.layers)) {
+      const showCounties = this.geography === "county";
+      layer.countyGroup.style.display = showCounties ? "" : "none";
+      layer.countyGroup.setAttribute("aria-hidden", String(!showCounties));
+      layer.stateGroup.style.display = showCounties ? "none" : "";
+      layer.stateGroup.setAttribute("aria-hidden", String(showCounties));
+    }
+  }
+
+  private paintFeatures(): void {
     const defaultFill = this.options.defaultFill ?? "#141414";
     const selectedFill = this.options.selectedFill ?? "#e10600";
 
     for (const layer of Object.values(this.layers)) {
-      for (const [fips, countyPath] of layer.paths) {
+      for (const [fips, countyPath] of layer.countyPaths) {
         const fill =
           this.layout === "personal"
             ? this.selectedFips.has(fips)
@@ -305,56 +400,100 @@ export class CountySvgRenderer {
           this.layout === "personal" && this.selectedFips.has(fips),
         );
       }
+
+      for (const [state, statePath] of layer.statePaths) {
+        statePath.setAttribute("fill", this.fills.get(state) ?? this.fallbackFill);
+      }
     }
   }
 
   private bindPointerEvents(): void {
     this.svg.addEventListener("pointerover", (event) => {
-      const details = this.pointerDetails(event);
-      if (!details || details.fips === this.hoveredFips) return;
-      this.hoveredFips = details.fips;
-      this.options.onCountyEnter?.(details);
+      const path = elementFeaturePath(event.target);
+      const key = pathFeatureKey(path);
+      if (!path || !key || key === this.hoveredFeature) return;
+      this.hoveredFeature = key;
+
+      if (this.geography === "county") {
+        const details = this.countyPointerDetails(event, path);
+        if (details) this.options.onCountyEnter?.(details);
+      } else {
+        const details = this.statePointerDetails(event, path);
+        if (details) this.options.onStateEnter?.(details);
+      }
     });
 
     this.svg.addEventListener("pointermove", (event) => {
-      const details = this.pointerDetails(event);
-      if (!details) return;
-      this.options.onCountyMove?.(details);
+      const path = elementFeaturePath(event.target);
+      if (!path) return;
+
+      if (this.geography === "county") {
+        const details = this.countyPointerDetails(event, path);
+        if (details) this.options.onCountyMove?.(details);
+      } else {
+        const details = this.statePointerDetails(event, path);
+        if (details) this.options.onStateMove?.(details);
+      }
     });
 
     this.svg.addEventListener("pointerout", (event) => {
-      const details = this.pointerDetails(event);
-      if (!details) return;
+      const path = elementFeaturePath(event.target);
+      const key = pathFeatureKey(path);
+      if (!path || !key) return;
 
-      const nextPath = elementCountyPath(event.relatedTarget);
-      if (nextPath?.dataset.fips === details.fips) return;
-      this.hoveredFips = null;
-      this.options.onCountyLeave?.(details);
+      const nextPath = elementFeaturePath(event.relatedTarget);
+      if (pathFeatureKey(nextPath) === key) return;
+      this.hoveredFeature = null;
+
+      if (this.geography === "county") {
+        const details = this.countyPointerDetails(event, path);
+        if (details) this.options.onCountyLeave?.(details);
+      } else {
+        const details = this.statePointerDetails(event, path);
+        if (details) this.options.onStateLeave?.(details);
+      }
     });
 
     // mouse hover already exposes details; pointerup covers touch and pen selection
     this.svg.addEventListener("pointerup", (event) => {
       if (event.pointerType === "mouse") return;
-      const details = this.pointerDetails(event);
-      if (details) this.options.onCountyTap?.(details);
+      const path = elementFeaturePath(event.target);
+      if (!path) return;
+
+      if (this.geography === "county") {
+        const details = this.countyPointerDetails(event, path);
+        if (details) this.options.onCountyTap?.(details);
+      } else {
+        const details = this.statePointerDetails(event, path);
+        if (details) this.options.onStateTap?.(details);
+      }
     });
 
     this.svg.addEventListener("pointerleave", (event) => {
-      if (this.hoveredFips === null) return;
-      const details = this.pointerDetailsFromFips(event, this.hoveredFips);
-      this.hoveredFips = null;
-      if (details) this.options.onCountyLeave?.(details);
+      if (this.hoveredFeature === null) return;
+      const key = this.hoveredFeature;
+      this.hoveredFeature = null;
+
+      if (this.geography === "county") {
+        const details = this.countyPointerDetailsFromFips(event, key);
+        if (details) this.options.onCountyLeave?.(details);
+      } else {
+        const details = this.statePointerDetailsFromAbbreviation(event, key);
+        if (details) this.options.onStateLeave?.(details);
+      }
     });
   }
 
-  private pointerDetails(event: PointerEvent): CountyPointerDetails | null {
-    const path = elementCountyPath(event.target);
+  private countyPointerDetails(
+    event: PointerEvent,
+    path = elementFeaturePath(event.target),
+  ): CountyPointerDetails | null {
     const fips = path?.dataset.fips;
     if (!path || !fips) return null;
-    return this.pointerDetailsFromFips(event, fips, path);
+    return this.countyPointerDetailsFromFips(event, fips, path);
   }
 
-  private pointerDetailsFromFips(
+  private countyPointerDetailsFromFips(
     event: PointerEvent,
     fips: string,
     path?: SVGPathElement,
@@ -377,7 +516,7 @@ export class CountySvgRenderer {
 
   private findCountyPath(fips: string): SVGPathElement | undefined {
     for (const layer of Object.values(this.layers)) {
-      const path = layer.paths.get(fips);
+      const path = layer.countyPaths.get(fips);
       if (path) return path;
     }
     return undefined;
@@ -389,6 +528,46 @@ export class CountySvgRenderer {
   ): CountyFeature | undefined {
     if (!isRegion(region)) return undefined;
     return this.layers[region].countyByFips.get(fips);
+  }
+
+  private statePointerDetails(
+    event: PointerEvent,
+    path = elementFeaturePath(event.target),
+  ): StatePointerDetails | null {
+    const abbreviation = path?.dataset.state;
+    if (!path || !abbreviation) return null;
+    return this.statePointerDetailsFromAbbreviation(event, abbreviation, path);
+  }
+
+  private statePointerDetailsFromAbbreviation(
+    event: PointerEvent,
+    abbreviation: string,
+    path?: SVGPathElement,
+  ): StatePointerDetails | null {
+    const statePath = path ?? this.findStatePath(abbreviation);
+    const region = statePath?.dataset.region;
+    if (!statePath || !isRegion(region)) return null;
+
+    const state = this.layers[region].stateByAbbreviation.get(abbreviation);
+    if (!state) return null;
+
+    return {
+      state: abbreviation,
+      region,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      pointerType: event.pointerType,
+      properties: state.properties,
+      originalEvent: event,
+    };
+  }
+
+  private findStatePath(abbreviation: string): SVGPathElement | undefined {
+    for (const layer of Object.values(this.layers)) {
+      const path = layer.statePaths.get(abbreviation);
+      if (path) return path;
+    }
+    return undefined;
   }
 
   private readonly scheduleResize = (): void => {
@@ -415,6 +594,50 @@ function splitCounties(topology: CountyTopology): Record<CountyMapRegion, County
     }),
     alaska: counties.filter((county) => county.id.startsWith(ALASKA_STATE_FIPS)),
     hawaii: counties.filter((county) => county.id.startsWith(HAWAII_STATE_FIPS)),
+  };
+}
+
+function splitStates(topology: CountyTopology): Record<CountyMapRegion, StateFeature[]> {
+  const stateGeometries = new Map<
+    string,
+    Array<TopologyPolygon<CountyProperties> | TopologyMultiPolygon<CountyProperties>>
+  >();
+
+  // merging original arcs removes county borders instead of painting over them
+  for (const geometry of topology.objects.counties.geometries) {
+    if (geometry.type !== "Polygon" && geometry.type !== "MultiPolygon") continue;
+
+    const stateFips = normalizeFips(geometry.id).slice(0, 2);
+    const abbreviation = geometry.properties?.STUSPS?.toUpperCase();
+    if (!abbreviation || !VALID_STATE_FIPS.has(stateFips)) continue;
+
+    const geometries = stateGeometries.get(abbreviation) ?? [];
+    geometries.push(geometry);
+    stateGeometries.set(abbreviation, geometries);
+  }
+
+  const states = Array.from(stateGeometries, ([abbreviation, geometries]) => {
+    const stateFips = normalizeFips(geometries[0]?.id).slice(0, 2);
+    return {
+      type: "Feature" as const,
+      id: abbreviation,
+      properties: { abbreviation, stateFips },
+      geometry: merge(topology, geometries),
+    } satisfies StateFeature;
+  });
+
+  return {
+    conus: states.filter(
+      (state) =>
+        state.properties.stateFips !== ALASKA_STATE_FIPS &&
+        state.properties.stateFips !== HAWAII_STATE_FIPS,
+    ),
+    alaska: states.filter(
+      (state) => state.properties.stateFips === ALASKA_STATE_FIPS,
+    ),
+    hawaii: states.filter(
+      (state) => state.properties.stateFips === HAWAII_STATE_FIPS,
+    ),
   };
 }
 
@@ -465,18 +688,29 @@ function createMobileExtents(
   };
 }
 
-function toFeatureCollection(counties: CountyFeature[]): FeatureCollection<Geometry> {
-  return { type: "FeatureCollection", features: counties };
+function toFeatureCollection(
+  features: Array<Feature<Geometry, GeoJsonProperties>>,
+): FeatureCollection<Geometry> {
+  return { type: "FeatureCollection", features };
 }
 
-function elementCountyPath(target: EventTarget | null): SVGPathElement | null {
+function elementFeaturePath(target: EventTarget | null): SVGPathElement | null {
   if (!(target instanceof Element)) return null;
-  const path = target.closest("path[data-fips]");
+  const path = target.closest("path[data-fips], path[data-state]");
   return path instanceof SVGPathElement ? path : null;
+}
+
+function pathFeatureKey(path: SVGPathElement | null): string | undefined {
+  return path?.dataset.fips ?? path?.dataset.state;
 }
 
 function normalizeFips(value: unknown): string {
   return String(value ?? "").padStart(5, "0");
+}
+
+function normalizeFillKey(value: unknown): string {
+  const key = String(value ?? "");
+  return /^[a-z]{2}$/i.test(key) ? key.toUpperCase() : normalizeFips(key);
 }
 
 function isCountyFips(fips: string): boolean {

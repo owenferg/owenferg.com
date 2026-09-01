@@ -1,0 +1,1048 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-01T02:43:39.514Z",
+  "username": "Fergo555",
+  "period": "overall",
+  "sources": {
+    "lastfm": "https://www.last.fm/user/Fergo555/library/artists",
+    "musicbrainz": "https://musicbrainz.org"
+  },
+  "totals": {
+    "libraryArtistCount": 3770,
+    "mappedArtistCount": 1508,
+    "excludedArtistCount": 893,
+    "unresolvedArtistCount": 1369,
+    "mappedScrobbleCount": 58665
+  },
+  "states": {
+    "AL": {
+      "name": "Alabama",
+      "artistCount": 7,
+      "scrobbleCount": 20,
+      "topArtists": [
+        {
+          "name": "Waxahatchee",
+          "playcount": 8,
+          "url": "https://www.last.fm/music/Waxahatchee"
+        },
+        {
+          "name": "Camping in Alaska",
+          "playcount": 6,
+          "url": "https://www.last.fm/music/Camping+in+Alaska"
+        },
+        {
+          "name": "Pink Siifu",
+          "playcount": 2,
+          "url": "https://www.last.fm/music/Pink+Siifu"
+        }
+      ]
+    },
+    "AK": {
+      "name": "Alaska",
+      "artistCount": 0,
+      "scrobbleCount": 0,
+      "topArtists": []
+    },
+    "AZ": {
+      "name": "Arizona",
+      "artistCount": 14,
+      "scrobbleCount": 118,
+      "topArtists": [
+        {
+          "name": "Injury Reserve",
+          "playcount": 34,
+          "url": "https://www.last.fm/music/Injury+Reserve"
+        },
+        {
+          "name": "tdstr",
+          "playcount": 23,
+          "url": "https://www.last.fm/music/tdstr"
+        },
+        {
+          "name": "FlyingFish",
+          "playcount": 18,
+          "url": "https://www.last.fm/music/FlyingFish"
+        }
+      ]
+    },
+    "AR": {
+      "name": "Arkansas",
+      "artistCount": 6,
+      "scrobbleCount": 198,
+      "topArtists": [
+        {
+          "name": "Nouns",
+          "playcount": 162,
+          "url": "https://www.last.fm/music/Nouns"
+        },
+        {
+          "name": "lor2mg",
+          "playcount": 29,
+          "url": "https://www.last.fm/music/lor2mg"
+        },
+        {
+          "name": "Everyone Asked About You",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Everyone+Asked+About+You"
+        }
+      ]
+    },
+    "CA": {
+      "name": "California",
+      "artistCount": 368,
+      "scrobbleCount": 15013,
+      "topArtists": [
+        {
+          "name": "underscores",
+          "playcount": 2421,
+          "url": "https://www.last.fm/music/underscores"
+        },
+        {
+          "name": "Tyler, The Creator",
+          "playcount": 2076,
+          "url": "https://www.last.fm/music/Tyler,+The+Creator"
+        },
+        {
+          "name": "Magdalena Bay",
+          "playcount": 1585,
+          "url": "https://www.last.fm/music/Magdalena+Bay"
+        }
+      ]
+    },
+    "CO": {
+      "name": "Colorado",
+      "artistCount": 10,
+      "scrobbleCount": 765,
+      "topArtists": [
+        {
+          "name": "Candy Claws",
+          "playcount": 509,
+          "url": "https://www.last.fm/music/Candy+Claws"
+        },
+        {
+          "name": "The Hellp",
+          "playcount": 215,
+          "url": "https://www.last.fm/music/The+Hellp"
+        },
+        {
+          "name": "That Kid",
+          "playcount": 24,
+          "url": "https://www.last.fm/music/That+Kid"
+        }
+      ]
+    },
+    "CT": {
+      "name": "Connecticut",
+      "artistCount": 19,
+      "scrobbleCount": 1788,
+      "topArtists": [
+        {
+          "name": "cece natalie",
+          "playcount": 520,
+          "url": "https://www.last.fm/music/cece+natalie"
+        },
+        {
+          "name": "ericdoa",
+          "playcount": 391,
+          "url": "https://www.last.fm/music/ericdoa"
+        },
+        {
+          "name": "Indigo De Souza",
+          "playcount": 315,
+          "url": "https://www.last.fm/music/Indigo+De+Souza"
+        }
+      ]
+    },
+    "DE": {
+      "name": "Delaware",
+      "artistCount": 2,
+      "scrobbleCount": 15,
+      "topArtists": [
+        {
+          "name": "Cortisa Star",
+          "playcount": 12,
+          "url": "https://www.last.fm/music/Cortisa+Star"
+        },
+        {
+          "name": "milkypossum",
+          "playcount": 3,
+          "url": "https://www.last.fm/music/milkypossum"
+        }
+      ]
+    },
+    "DC": {
+      "name": "District of Columbia",
+      "artistCount": 17,
+      "scrobbleCount": 4394,
+      "topArtists": [
+        {
+          "name": "Origami Angel",
+          "playcount": 4257,
+          "url": "https://www.last.fm/music/Origami+Angel"
+        },
+        {
+          "name": "Kuru",
+          "playcount": 59,
+          "url": "https://www.last.fm/music/Kuru"
+        },
+        {
+          "name": "Redveil",
+          "playcount": 28,
+          "url": "https://www.last.fm/music/Redveil"
+        }
+      ]
+    },
+    "FL": {
+      "name": "Florida",
+      "artistCount": 63,
+      "scrobbleCount": 2220,
+      "topArtists": [
+        {
+          "name": "home is where",
+          "playcount": 887,
+          "url": "https://www.last.fm/music/home+is+where"
+        },
+        {
+          "name": "quannnic",
+          "playcount": 412,
+          "url": "https://www.last.fm/music/quannnic"
+        },
+        {
+          "name": "Pool Kids",
+          "playcount": 200,
+          "url": "https://www.last.fm/music/Pool+Kids"
+        }
+      ]
+    },
+    "GA": {
+      "name": "Georgia",
+      "artistCount": 50,
+      "scrobbleCount": 881,
+      "topArtists": [
+        {
+          "name": "Michael Cera Palin",
+          "playcount": 244,
+          "url": "https://www.last.fm/music/Michael+Cera+Palin"
+        },
+        {
+          "name": "Playboi Carti",
+          "playcount": 138,
+          "url": "https://www.last.fm/music/Playboi+Carti"
+        },
+        {
+          "name": "Clairo",
+          "playcount": 120,
+          "url": "https://www.last.fm/music/Clairo"
+        }
+      ]
+    },
+    "HI": {
+      "name": "Hawaii",
+      "artistCount": 4,
+      "scrobbleCount": 7,
+      "topArtists": [
+        {
+          "name": "Bruno Mars",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Bruno+Mars"
+        },
+        {
+          "name": "Jack Johnson",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Jack+Johnson"
+        },
+        {
+          "name": "MadeinTYO",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/MadeinTYO"
+        }
+      ]
+    },
+    "ID": {
+      "name": "Idaho",
+      "artistCount": 5,
+      "scrobbleCount": 167,
+      "topArtists": [
+        {
+          "name": "Raccoon Tour",
+          "playcount": 131,
+          "url": "https://www.last.fm/music/Raccoon+Tour"
+        },
+        {
+          "name": "bugcore",
+          "playcount": 23,
+          "url": "https://www.last.fm/music/bugcore"
+        },
+        {
+          "name": "Built to Spill",
+          "playcount": 11,
+          "url": "https://www.last.fm/music/Built+to+Spill"
+        }
+      ]
+    },
+    "IL": {
+      "name": "Illinois",
+      "artistCount": 78,
+      "scrobbleCount": 1922,
+      "topArtists": [
+        {
+          "name": "Your Arms Are My Cocoon",
+          "playcount": 561,
+          "url": "https://www.last.fm/music/Your+Arms+Are+My+Cocoon"
+        },
+        {
+          "name": "2hollis",
+          "playcount": 467,
+          "url": "https://www.last.fm/music/2hollis"
+        },
+        {
+          "name": "The Smashing Pumpkins",
+          "playcount": 151,
+          "url": "https://www.last.fm/music/The+Smashing+Pumpkins"
+        }
+      ]
+    },
+    "IN": {
+      "name": "Indiana",
+      "artistCount": 13,
+      "scrobbleCount": 459,
+      "topArtists": [
+        {
+          "name": "midwxst",
+          "playcount": 154,
+          "url": "https://www.last.fm/music/midwxst"
+        },
+        {
+          "name": "Adrianne Lenker",
+          "playcount": 111,
+          "url": "https://www.last.fm/music/Adrianne+Lenker"
+        },
+        {
+          "name": "STOMACH BOOK",
+          "playcount": 91,
+          "url": "https://www.last.fm/music/STOMACH+BOOK"
+        }
+      ]
+    },
+    "IA": {
+      "name": "Iowa",
+      "artistCount": 3,
+      "scrobbleCount": 5,
+      "topArtists": [
+        {
+          "name": "Stars Hollow",
+          "playcount": 3,
+          "url": "https://www.last.fm/music/Stars+Hollow"
+        },
+        {
+          "name": "Julee Cruise",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Julee+Cruise"
+        },
+        {
+          "name": "Stone Sour",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Stone+Sour"
+        }
+      ]
+    },
+    "KS": {
+      "name": "Kansas",
+      "artistCount": 6,
+      "scrobbleCount": 154,
+      "topArtists": [
+        {
+          "name": "Paper Airplanes",
+          "playcount": 131,
+          "url": "https://www.last.fm/music/Paper+Airplanes"
+        },
+        {
+          "name": "GEZEBELLE GABURGABLY",
+          "playcount": 19,
+          "url": "https://www.last.fm/music/GEZEBELLE+GABURGABLY"
+        },
+        {
+          "name": "009 Sound System",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/009+Sound+System"
+        }
+      ]
+    },
+    "KY": {
+      "name": "Kentucky",
+      "artistCount": 13,
+      "scrobbleCount": 235,
+      "topArtists": [
+        {
+          "name": "Space Laces",
+          "playcount": 123,
+          "url": "https://www.last.fm/music/Space+Laces"
+        },
+        {
+          "name": "Knocked Loose",
+          "playcount": 51,
+          "url": "https://www.last.fm/music/Knocked+Loose"
+        },
+        {
+          "name": "Tinashe",
+          "playcount": 20,
+          "url": "https://www.last.fm/music/Tinashe"
+        }
+      ]
+    },
+    "LA": {
+      "name": "Louisiana",
+      "artistCount": 22,
+      "scrobbleCount": 1188,
+      "topArtists": [
+        {
+          "name": "Neutral Milk Hotel",
+          "playcount": 860,
+          "url": "https://www.last.fm/music/Neutral+Milk+Hotel"
+        },
+        {
+          "name": "Jeff Mangum",
+          "playcount": 145,
+          "url": "https://www.last.fm/music/Jeff+Mangum"
+        },
+        {
+          "name": "The Olivia Tremor Control",
+          "playcount": 58,
+          "url": "https://www.last.fm/music/The+Olivia+Tremor+Control"
+        }
+      ]
+    },
+    "ME": {
+      "name": "Maine",
+      "artistCount": 1,
+      "scrobbleCount": 2,
+      "topArtists": [
+        {
+          "name": "4lung",
+          "playcount": 2,
+          "url": "https://www.last.fm/music/4lung"
+        }
+      ]
+    },
+    "MD": {
+      "name": "Maryland",
+      "artistCount": 26,
+      "scrobbleCount": 11351,
+      "topArtists": [
+        {
+          "name": "JPEGMAFIA",
+          "playcount": 4098,
+          "url": "https://www.last.fm/music/JPEGMAFIA"
+        },
+        {
+          "name": "Jane Remover",
+          "playcount": 3806,
+          "url": "https://www.last.fm/music/Jane+Remover"
+        },
+        {
+          "name": "Glass Beach",
+          "playcount": 2877,
+          "url": "https://www.last.fm/music/Glass+Beach"
+        }
+      ]
+    },
+    "MA": {
+      "name": "Massachusetts",
+      "artistCount": 65,
+      "scrobbleCount": 716,
+      "topArtists": [
+        {
+          "name": "Godfuck",
+          "playcount": 141,
+          "url": "https://www.last.fm/music/Godfuck"
+        },
+        {
+          "name": "Poppy",
+          "playcount": 89,
+          "url": "https://www.last.fm/music/Poppy"
+        },
+        {
+          "name": "amaii",
+          "playcount": 64,
+          "url": "https://www.last.fm/music/amaii"
+        }
+      ]
+    },
+    "MI": {
+      "name": "Michigan",
+      "artistCount": 49,
+      "scrobbleCount": 526,
+      "topArtists": [
+        {
+          "name": "Danny Brown",
+          "playcount": 131,
+          "url": "https://www.last.fm/music/Danny+Brown"
+        },
+        {
+          "name": "Hot Mulligan",
+          "playcount": 126,
+          "url": "https://www.last.fm/music/Hot+Mulligan"
+        },
+        {
+          "name": "ZelooperZ",
+          "playcount": 108,
+          "url": "https://www.last.fm/music/ZelooperZ"
+        }
+      ]
+    },
+    "MN": {
+      "name": "Minnesota",
+      "artistCount": 21,
+      "scrobbleCount": 964,
+      "topArtists": [
+        {
+          "name": "Bejalvin",
+          "playcount": 843,
+          "url": "https://www.last.fm/music/Bejalvin"
+        },
+        {
+          "name": "Soulkeeper",
+          "playcount": 60,
+          "url": "https://www.last.fm/music/Soulkeeper"
+        },
+        {
+          "name": "Jade Nicole",
+          "playcount": 13,
+          "url": "https://www.last.fm/music/Jade+Nicole"
+        }
+      ]
+    },
+    "MS": {
+      "name": "Mississippi",
+      "artistCount": 4,
+      "scrobbleCount": 30,
+      "topArtists": [
+        {
+          "name": "Britney Spears",
+          "playcount": 25,
+          "url": "https://www.last.fm/music/Britney+Spears"
+        },
+        {
+          "name": "Toby Turner",
+          "playcount": 3,
+          "url": "https://www.last.fm/music/Toby+Turner"
+        },
+        {
+          "name": "Jimmy Buffett",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Jimmy+Buffett"
+        }
+      ]
+    },
+    "MO": {
+      "name": "Missouri",
+      "artistCount": 15,
+      "scrobbleCount": 2170,
+      "topArtists": [
+        {
+          "name": "100 gecs",
+          "playcount": 1343,
+          "url": "https://www.last.fm/music/100+gecs"
+        },
+        {
+          "name": "Frost Children",
+          "playcount": 586,
+          "url": "https://www.last.fm/music/Frost+Children"
+        },
+        {
+          "name": "Chappell Roan",
+          "playcount": 171,
+          "url": "https://www.last.fm/music/Chappell+Roan"
+        }
+      ]
+    },
+    "MT": {
+      "name": "Montana",
+      "artistCount": 1,
+      "scrobbleCount": 6,
+      "topArtists": [
+        {
+          "name": "Rookie Card",
+          "playcount": 6,
+          "url": "https://www.last.fm/music/Rookie+Card"
+        }
+      ]
+    },
+    "NE": {
+      "name": "Nebraska",
+      "artistCount": 3,
+      "scrobbleCount": 13,
+      "topArtists": [
+        {
+          "name": "Bright Eyes",
+          "playcount": 8,
+          "url": "https://www.last.fm/music/Bright+Eyes"
+        },
+        {
+          "name": "NANORAY",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/NANORAY"
+        },
+        {
+          "name": "Farrah Abraham",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Farrah+Abraham"
+        }
+      ]
+    },
+    "NV": {
+      "name": "Nevada",
+      "artistCount": 9,
+      "scrobbleCount": 65,
+      "topArtists": [
+        {
+          "name": "Carter C",
+          "playcount": 28,
+          "url": "https://www.last.fm/music/Carter+C"
+        },
+        {
+          "name": "Alex Argot",
+          "playcount": 15,
+          "url": "https://www.last.fm/music/Alex+Argot"
+        },
+        {
+          "name": "GAP girls",
+          "playcount": 7,
+          "url": "https://www.last.fm/music/GAP+girls"
+        }
+      ]
+    },
+    "NH": {
+      "name": "New Hampshire",
+      "artistCount": 3,
+      "scrobbleCount": 6,
+      "topArtists": [
+        {
+          "name": "Atura",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Atura"
+        },
+        {
+          "name": "Casper Elgin",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Casper+Elgin"
+        },
+        {
+          "name": "Perspective, a lovely hand to hold",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Perspective,+a+lovely+hand+to+hold"
+        }
+      ]
+    },
+    "NJ": {
+      "name": "New Jersey",
+      "artistCount": 42,
+      "scrobbleCount": 2649,
+      "topArtists": [
+        {
+          "name": "venturing",
+          "playcount": 853,
+          "url": "https://www.last.fm/music/venturing"
+        },
+        {
+          "name": "Pinegrove",
+          "playcount": 797,
+          "url": "https://www.last.fm/music/Pinegrove"
+        },
+        {
+          "name": "Mk.gee",
+          "playcount": 350,
+          "url": "https://www.last.fm/music/Mk.gee"
+        }
+      ]
+    },
+    "NM": {
+      "name": "New Mexico",
+      "artistCount": 3,
+      "scrobbleCount": 4,
+      "topArtists": [
+        {
+          "name": "Brokencyde",
+          "playcount": 2,
+          "url": "https://www.last.fm/music/Brokencyde"
+        },
+        {
+          "name": "Chezile",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Chezile"
+        },
+        {
+          "name": "Demi Lovato",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Demi+Lovato"
+        }
+      ]
+    },
+    "NY": {
+      "name": "New York",
+      "artistCount": 203,
+      "scrobbleCount": 3424,
+      "topArtists": [
+        {
+          "name": "Machine Girl",
+          "playcount": 472,
+          "url": "https://www.last.fm/music/Machine+Girl"
+        },
+        {
+          "name": "Jeff Rosenstock",
+          "playcount": 416,
+          "url": "https://www.last.fm/music/Jeff+Rosenstock"
+        },
+        {
+          "name": "George Clanton",
+          "playcount": 269,
+          "url": "https://www.last.fm/music/George+Clanton"
+        }
+      ]
+    },
+    "NC": {
+      "name": "North Carolina",
+      "artistCount": 21,
+      "scrobbleCount": 710,
+      "topArtists": [
+        {
+          "name": "glaive",
+          "playcount": 333,
+          "url": "https://www.last.fm/music/glaive"
+        },
+        {
+          "name": "Porter Robinson",
+          "playcount": 274,
+          "url": "https://www.last.fm/music/Porter+Robinson"
+        },
+        {
+          "name": "MJ Lenderman",
+          "playcount": 26,
+          "url": "https://www.last.fm/music/MJ+Lenderman"
+        }
+      ]
+    },
+    "ND": {
+      "name": "North Dakota",
+      "artistCount": 0,
+      "scrobbleCount": 0,
+      "topArtists": []
+    },
+    "OH": {
+      "name": "Ohio",
+      "artistCount": 25,
+      "scrobbleCount": 243,
+      "topArtists": [
+        {
+          "name": "OsamaSon",
+          "playcount": 47,
+          "url": "https://www.last.fm/music/OsamaSon"
+        },
+        {
+          "name": "Equipment",
+          "playcount": 36,
+          "url": "https://www.last.fm/music/Equipment"
+        },
+        {
+          "name": "Kid Cudi",
+          "playcount": 32,
+          "url": "https://www.last.fm/music/Kid+Cudi"
+        }
+      ]
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "artistCount": 8,
+      "scrobbleCount": 54,
+      "topArtists": [
+        {
+          "name": "Ben Quad",
+          "playcount": 30,
+          "url": "https://www.last.fm/music/Ben+Quad"
+        },
+        {
+          "name": "Cursetheknife",
+          "playcount": 10,
+          "url": "https://www.last.fm/music/Cursetheknife"
+        },
+        {
+          "name": "Chat Pile",
+          "playcount": 8,
+          "url": "https://www.last.fm/music/Chat+Pile"
+        }
+      ]
+    },
+    "OR": {
+      "name": "Oregon",
+      "artistCount": 31,
+      "scrobbleCount": 310,
+      "topArtists": [
+        {
+          "name": "exciting!!excellent!!",
+          "playcount": 51,
+          "url": "https://www.last.fm/music/exciting!!excellent!!"
+        },
+        {
+          "name": "Carbine",
+          "playcount": 41,
+          "url": "https://www.last.fm/music/Carbine"
+        },
+        {
+          "name": "Mauve",
+          "playcount": 32,
+          "url": "https://www.last.fm/music/Mauve"
+        }
+      ]
+    },
+    "PA": {
+      "name": "Pennsylvania",
+      "artistCount": 77,
+      "scrobbleCount": 3479,
+      "topArtists": [
+        {
+          "name": "Todd Rundgren",
+          "playcount": 474,
+          "url": "https://www.last.fm/music/Todd+Rundgren"
+        },
+        {
+          "name": "blue smiley",
+          "playcount": 444,
+          "url": "https://www.last.fm/music/blue+smiley"
+        },
+        {
+          "name": "feeble little horse",
+          "playcount": 425,
+          "url": "https://www.last.fm/music/feeble+little+horse"
+        }
+      ]
+    },
+    "RI": {
+      "name": "Rhode Island",
+      "artistCount": 8,
+      "scrobbleCount": 16,
+      "topArtists": [
+        {
+          "name": "Spellcasting",
+          "playcount": 5,
+          "url": "https://www.last.fm/music/Spellcasting"
+        },
+        {
+          "name": "Catalyst...",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Catalyst..."
+        },
+        {
+          "name": "Dreamwell",
+          "playcount": 2,
+          "url": "https://www.last.fm/music/Dreamwell"
+        }
+      ]
+    },
+    "SC": {
+      "name": "South Carolina",
+      "artistCount": 5,
+      "scrobbleCount": 33,
+      "topArtists": [
+        {
+          "name": "Coma Cinema",
+          "playcount": 14,
+          "url": "https://www.last.fm/music/Coma+Cinema"
+        },
+        {
+          "name": "Newgrounds Death Rugby",
+          "playcount": 12,
+          "url": "https://www.last.fm/music/Newgrounds+Death+Rugby"
+        },
+        {
+          "name": "$PIRIT GURLZ",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/$PIRIT+GURLZ"
+        }
+      ]
+    },
+    "SD": {
+      "name": "South Dakota",
+      "artistCount": 0,
+      "scrobbleCount": 0,
+      "topArtists": []
+    },
+    "TN": {
+      "name": "Tennessee",
+      "artistCount": 33,
+      "scrobbleCount": 428,
+      "topArtists": [
+        {
+          "name": "Guitar Fight from Fooly Cooly",
+          "playcount": 192,
+          "url": "https://www.last.fm/music/Guitar+Fight+from+Fooly+Cooly"
+        },
+        {
+          "name": "Topiary Creatures",
+          "playcount": 50,
+          "url": "https://www.last.fm/music/Topiary+Creatures"
+        },
+        {
+          "name": "Paramore",
+          "playcount": 46,
+          "url": "https://www.last.fm/music/Paramore"
+        }
+      ]
+    },
+    "TX": {
+      "name": "Texas",
+      "artistCount": 71,
+      "scrobbleCount": 515,
+      "topArtists": [
+        {
+          "name": "BROCKHAMPTON",
+          "playcount": 65,
+          "url": "https://www.last.fm/music/BROCKHAMPTON"
+        },
+        {
+          "name": "Riley!",
+          "playcount": 49,
+          "url": "https://www.last.fm/music/Riley!"
+        },
+        {
+          "name": "Polyphia",
+          "playcount": 43,
+          "url": "https://www.last.fm/music/Polyphia"
+        }
+      ]
+    },
+    "UT": {
+      "name": "Utah",
+      "artistCount": 8,
+      "scrobbleCount": 114,
+      "topArtists": [
+        {
+          "name": "Summer 2000",
+          "playcount": 83,
+          "url": "https://www.last.fm/music/Summer+2000"
+        },
+        {
+          "name": "The Backseat Lovers",
+          "playcount": 18,
+          "url": "https://www.last.fm/music/The+Backseat+Lovers"
+        },
+        {
+          "name": "Cmten",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Cmten"
+        }
+      ]
+    },
+    "VT": {
+      "name": "Vermont",
+      "artistCount": 2,
+      "scrobbleCount": 5,
+      "topArtists": [
+        {
+          "name": "Fried By Fluoride",
+          "playcount": 4,
+          "url": "https://www.last.fm/music/Fried+By+Fluoride"
+        },
+        {
+          "name": "Dari Bay",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Dari+Bay"
+        }
+      ]
+    },
+    "VA": {
+      "name": "Virginia",
+      "artistCount": 28,
+      "scrobbleCount": 218,
+      "topArtists": [
+        {
+          "name": "nettspend",
+          "playcount": 89,
+          "url": "https://www.last.fm/music/nettspend"
+        },
+        {
+          "name": "Kali Uchis",
+          "playcount": 38,
+          "url": "https://www.last.fm/music/Kali+Uchis"
+        },
+        {
+          "name": "Neggy Gemmy",
+          "playcount": 17,
+          "url": "https://www.last.fm/music/Neggy+Gemmy"
+        }
+      ]
+    },
+    "WA": {
+      "name": "Washington",
+      "artistCount": 35,
+      "scrobbleCount": 758,
+      "topArtists": [
+        {
+          "name": "The Microphones",
+          "playcount": 177,
+          "url": "https://www.last.fm/music/The+Microphones"
+        },
+        {
+          "name": "Dijon",
+          "playcount": 160,
+          "url": "https://www.last.fm/music/Dijon"
+        },
+        {
+          "name": "Floral Tattoo",
+          "playcount": 140,
+          "url": "https://www.last.fm/music/Floral+Tattoo"
+        }
+      ]
+    },
+    "WV": {
+      "name": "West Virginia",
+      "artistCount": 1,
+      "scrobbleCount": 1,
+      "topArtists": [
+        {
+          "name": "Byzantine",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/Byzantine"
+        }
+      ]
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "artistCount": 8,
+      "scrobbleCount": 219,
+      "topArtists": [
+        {
+          "name": "Slow Pulp",
+          "playcount": 190,
+          "url": "https://www.last.fm/music/Slow+Pulp"
+        },
+        {
+          "name": "Kevin Macleod",
+          "playcount": 11,
+          "url": "https://www.last.fm/music/Kevin+Macleod"
+        },
+        {
+          "name": "Casino Versus Japan",
+          "playcount": 7,
+          "url": "https://www.last.fm/music/Casino+Versus+Japan"
+        }
+      ]
+    },
+    "WY": {
+      "name": "Wyoming",
+      "artistCount": 2,
+      "scrobbleCount": 87,
+      "topArtists": [
+        {
+          "name": "KIDS SEE GHOSTS",
+          "playcount": 86,
+          "url": "https://www.last.fm/music/KIDS+SEE+GHOSTS"
+        },
+        {
+          "name": "diningroomsuicide",
+          "playcount": 1,
+          "url": "https://www.last.fm/music/diningroomsuicide"
+        }
+      ]
+    }
+  }
+}

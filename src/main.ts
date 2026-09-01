@@ -3,15 +3,17 @@ import "./styles.css";
 import countyStatisticsFile from "./data/county-statistics.json";
 import countyTopologyFile from "./data/county-topology.json";
 import domainCountiesFile from "./data/domain-counties.json";
+import lastfmStateArtistsFile from "./data/lastfm-state-artists.json";
 import {
   CountySvgRenderer,
   type CountyPointerDetails,
   type CountyTopology,
+  type StatePointerDetails,
 } from "./map/county-svg-renderer";
 
-type MapMode = "personal" | "growth" | "density" | "income";
-type StatisticMode = Exclude<MapMode, "personal">;
-type StatisticField = "growthPct" | "densityPerSqMi" | "medianHouseholdIncome";
+type MapMode = "personal" | "growth" | "music" | "income";
+type StatisticMode = "growth" | "income";
+type StatisticField = "growthPct" | "medianHouseholdIncome";
 
 type CountyDatum = {
   fips: string;
@@ -27,6 +29,37 @@ type CountyStatistics = {
   vintage: number;
   countyCount: number;
   counties: Record<string, CountyDatum>;
+};
+
+type TopArtist = {
+  name: string;
+  playcount: number;
+  url: string;
+};
+
+type StateArtistDatum = {
+  artistCount: number;
+  scrobbleCount: number;
+  topArtists: TopArtist[];
+};
+
+type LastfmStateArtists = {
+  schemaVersion: number;
+  generatedAt: string;
+  username: string;
+  period: string;
+  sources: {
+    lastfm: string;
+    musicbrainz: string;
+  };
+  totals: {
+    libraryArtistCount: number;
+    mappedArtistCount: number;
+    excludedArtistCount: number;
+    unresolvedArtistCount: number;
+    mappedScrobbleCount: number;
+  };
+  states: Record<string, StateArtistDatum>;
 };
 
 type StatisticDefinition = {
@@ -45,10 +78,20 @@ type StatisticDefinition = {
 const PERSONAL_FILL = "#000000";
 const PERSONAL_SELECTED_FILL = "#e10600";
 const NO_DATA_FILL = "#191919";
+const NO_ARTISTS_FILL = "#111111";
+const MUSIC_COLORS = [
+  "#3f1c50",
+  "#5e2a6d",
+  "#833f81",
+  "#af649c",
+  "#e29dcc",
+] as const;
 const MAP_FADE_HALF_MS = 150;
 
 const statistics = countyStatisticsFile as CountyStatistics;
 const counties = statistics.counties;
+const lastfmStateArtists = lastfmStateArtistsFile as LastfmStateArtists;
+const stateArtists = lastfmStateArtists.states;
 const selectedFips = (domainCountiesFile as unknown[]).map((fips) =>
   String(fips).padStart(5, "0"),
 );
@@ -60,6 +103,25 @@ const incomeThresholds = quantileThresholds(
     county.medianHouseholdIncome === null ? [] : [county.medianHouseholdIncome],
   ),
 );
+const musicThresholds = quantileThresholds(
+  Object.values(stateArtists).flatMap((state) =>
+    state.artistCount > 0 ? [state.artistCount] : [],
+  ),
+);
+const STATE_NAMES: Record<string, string> = {
+  AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+  CO: "Colorado", CT: "Connecticut", DE: "Delaware", DC: "District of Columbia",
+  FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois",
+  IN: "Indiana", IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana",
+  ME: "Maine", MD: "Maryland", MA: "Massachusetts", MI: "Michigan",
+  MN: "Minnesota", MS: "Mississippi", MO: "Missouri", MT: "Montana",
+  NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
+  OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania",
+  RI: "Rhode Island", SC: "South Carolina", SD: "South Dakota",
+  TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont", VA: "Virginia",
+  WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+};
 
 const definitions: Record<StatisticMode, StatisticDefinition> = {
   growth: {
@@ -75,19 +137,6 @@ const definitions: Record<StatisticMode, StatisticDefinition> = {
     ariaLabel: "County population change in the United States from 2020 to 2024",
     formatValue: formatGrowth,
   },
-  density: {
-    mode: "density",
-    title: "population density, 2024",
-    field: "densityPerSqMi",
-    thresholds: [10, 50, 200, 1_000],
-    colors: ["#17243d", "#24516a", "#337f86", "#68ada0", "#b9d9b8"],
-    legendLabels: ["< 10", "10–50", "50–200", "200–1k", "≥ 1k / mi²"],
-    sourceLabel: "Census population and county geography, 2024",
-    sourceHref:
-      "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
-    ariaLabel: "County population density in the United States in 2024",
-    formatValue: formatDensity,
-  },
   income: {
     mode: "income",
     title: "median household income, 2024",
@@ -102,7 +151,7 @@ const definitions: Record<StatisticMode, StatisticDefinition> = {
   },
 };
 
-const modes: MapMode[] = ["personal", "growth", "density", "income"];
+const modes: MapMode[] = ["personal", "growth", "music", "income"];
 const modeFills = new Map<StatisticMode, Map<string, string>>();
 let activeIndex = 0;
 let transitionTimer: number | undefined;
@@ -116,9 +165,12 @@ const titleElement = requireElement("#map-title");
 const legendElement = requireElement("#map-legend");
 const sourceLineElement = requireElement("[data-map-source-line]");
 const sourceElement = requireAnchor("#map-source");
+const sourceSecondaryContainer = requireElement("[data-map-source-secondary]");
+const sourceSecondaryElement = requireAnchor("#map-source-secondary");
 const tooltip = requireElement("#map-tooltip");
 const tooltipName = requireElement(".county-hover-name");
 const tooltipValue = requireElement(".county-hover-value");
+const tooltipArtists = requireElement(".county-hover-artists");
 const legendSwatches = requireElements<HTMLElement>("[data-legend-swatch]");
 const legendLabels = requireElements<HTMLElement>("[data-legend-label]");
 const legendSteps = requireElements<HTMLElement>(".map-legend-step");
@@ -135,6 +187,10 @@ const renderer = new CountySvgRenderer(stage, {
   onCountyMove: handleCountyMove,
   onCountyLeave: handleCountyLeave,
   onCountyTap: handleCountyTap,
+  onStateEnter: handleStateEnter,
+  onStateMove: handleStateMove,
+  onStateLeave: handleStateLeave,
+  onStateTap: handleStateTap,
 });
 renderer.svg.setAttribute("aria-describedby", "map-description");
 
@@ -170,15 +226,16 @@ function selectRelativeMode(direction: -1 | 1): void {
 function applyMode(mode: MapMode): void {
   const personal = mode === "personal";
   stage.dataset.mapLayout = personal ? "personal" : "statistics";
-  titleElement.textContent = personal ? "owenferg.com" : definitions[mode].title;
 
   if (personal) {
+    titleElement.textContent = "owenferg.com";
     delete document.documentElement.dataset.mapTheme;
     renderer.svg.setAttribute(
       "aria-label",
       "A county map of the United States spelling owenferg.com",
     );
     renderer.setLayout("personal");
+    renderer.setGeography("county");
     renderer.setFills(new Map(), PERSONAL_FILL);
     legendElement.classList.add("map-legend--personal-hidden");
     legendElement.setAttribute("aria-hidden", "true");
@@ -189,13 +246,43 @@ function applyMode(mode: MapMode): void {
     sourceLineElement.hidden = false;
     sourceLineElement.classList.add("is-placeholder");
     sourceLineElement.setAttribute("aria-hidden", "true");
+    sourceSecondaryContainer.hidden = true;
+    return;
+  }
+
+  if (mode === "music") {
+    titleElement.textContent = "music artists I listen to by state";
+    document.documentElement.dataset.mapTheme = "music";
+    renderer.svg.setAttribute(
+      "aria-label",
+      "Distinct artists in Fergo555's Last.fm library by United States state",
+    );
+    renderer.setLayout("statistics");
+    renderer.setGeography("state");
+    renderer.setFills(getMusicFills(), NO_ARTISTS_FILL);
+    legendElement.classList.remove("map-legend--personal-hidden");
+    legendElement.removeAttribute("aria-hidden");
+    updateLegend(
+      [NO_ARTISTS_FILL, ...MUSIC_COLORS],
+      ["0 artists", "lowest 20%", "20–40%", "40–60%", "60–80%", "highest 20%"],
+    );
+    sourceLineElement.hidden = false;
+    sourceLineElement.classList.remove("is-placeholder");
+    sourceLineElement.removeAttribute("aria-hidden");
+    sourceElement.textContent = "Fergo555 on Last.fm";
+    sourceElement.href = "https://www.last.fm/user/Fergo555";
+    sourceSecondaryElement.textContent = "MusicBrainz";
+    sourceSecondaryElement.href = "https://musicbrainz.org/";
+    sourceSecondaryContainer.hidden = false;
     return;
   }
 
   const definition = definitions[mode];
+  titleElement.textContent = definition.title;
   document.documentElement.dataset.mapTheme = mode;
   renderer.svg.setAttribute("aria-label", definition.ariaLabel);
   renderer.setLayout("statistics");
+  renderer.setGeography("county");
   renderer.setFills(getModeFills(definition), NO_DATA_FILL);
   legendElement.classList.remove("map-legend--personal-hidden");
   legendElement.removeAttribute("aria-hidden");
@@ -205,6 +292,7 @@ function applyMode(mode: MapMode): void {
   sourceLineElement.removeAttribute("aria-hidden");
   sourceElement.textContent = definition.sourceLabel;
   sourceElement.href = definition.sourceHref;
+  sourceSecondaryContainer.hidden = true;
 }
 
 function updateLegend(colors: readonly string[], labels: readonly string[]): void {
@@ -278,6 +366,19 @@ function getModeFills(definition: StatisticDefinition): Map<string, string> {
   return fills;
 }
 
+function getMusicFills(): Map<string, string> {
+  const fills = new Map<string, string>();
+  for (const [state, datum] of Object.entries(stateArtists)) {
+    fills.set(
+      state,
+      datum.artistCount === 0
+        ? NO_ARTISTS_FILL
+        : classify(datum.artistCount, musicThresholds, MUSIC_COLORS),
+    );
+  }
+  return fills;
+}
+
 function handleCountyEnter(details: CountyPointerDetails): void {
   if (details.pointerType !== "mouse") return;
   showTooltip(details);
@@ -297,18 +398,62 @@ function handleCountyTap(details: CountyPointerDetails): void {
   showTooltip(details);
 }
 
+function handleStateEnter(details: StatePointerDetails): void {
+  if (details.pointerType !== "mouse") return;
+  showStateTooltip(details);
+}
+
+function handleStateMove(details: StatePointerDetails): void {
+  if (details.pointerType !== "mouse" || tooltip.hidden) return;
+  positionTooltip(details.clientX, details.clientY);
+}
+
+function handleStateLeave(details: StatePointerDetails): void {
+  if (details.pointerType === "mouse" && !touchTooltipPinned) hideTooltip();
+}
+
+function handleStateTap(details: StatePointerDetails): void {
+  touchTooltipPinned = true;
+  showStateTooltip(details);
+}
+
 function showTooltip(details: CountyPointerDetails): void {
   const mode = modes[activeIndex];
   const county = counties[details.fips];
   tooltipName.textContent = county ? `${county.name}, ${county.state}` : details.fips;
+  tooltipArtists.replaceChildren();
 
   if (mode === "personal") {
     tooltipValue.textContent = "";
-  } else {
+  } else if (mode !== "music") {
     const definition = definitions[mode];
     const value = county?.[definition.field];
     tooltipValue.textContent =
       typeof value === "number" ? definition.formatValue(value) : "data unavailable";
+  } else {
+    tooltipValue.textContent = "data unavailable";
+  }
+
+  tooltip.hidden = false;
+  positionTooltip(details.clientX, details.clientY);
+}
+
+function showStateTooltip(details: StatePointerDetails): void {
+  const datum = stateArtists[details.state];
+  tooltipName.textContent = STATE_NAMES[details.state] ?? details.state;
+  tooltipArtists.replaceChildren();
+
+  if (!datum || datum.artistCount === 0) {
+    tooltipValue.textContent = "No mapped artists";
+  } else {
+    tooltipValue.textContent = `${datum.artistCount.toLocaleString("en-US")} distinct ${datum.artistCount === 1 ? "artist" : "artists"}`;
+    const artistRows = datum.topArtists.slice(0, 3).map((artist) => {
+      const row = document.createElement("span");
+      row.className = "county-hover-artist";
+      row.textContent = `${artist.name} — ${artist.playcount.toLocaleString("en-US")} ${artist.playcount === 1 ? "scrobble" : "scrobbles"}`;
+      return row;
+    });
+    tooltipArtists.replaceChildren(...artistRows);
   }
 
   tooltip.hidden = false;
@@ -350,6 +495,7 @@ function hideTooltip(): void {
   tooltip.hidden = true;
   tooltipName.textContent = "";
   tooltipValue.textContent = "";
+  tooltipArtists.replaceChildren();
 }
 
 function classify(
@@ -389,11 +535,6 @@ function buildIncomeLegend(thresholds: number[]): string[] {
 function formatGrowth(value: number): string {
   const rounded = value.toFixed(1);
   return `${value > 0 ? "+" : ""}${rounded}% population change`;
-}
-
-function formatDensity(value: number): string {
-  const digits = value < 10 ? 1 : 0;
-  return `${value.toLocaleString("en-US", { maximumFractionDigits: digits })} people / mi²`;
 }
 
 function formatIncome(value: number): string {
