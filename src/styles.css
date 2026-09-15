@@ -427,15 +427,11 @@ a,
 .work {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 1.35rem;
 }
 
-.work-col > p {
-  margin-bottom: 1.35rem;
-}
-
-.project + .project {
-  margin-top: 1.35rem;
+.work-heading {
+  margin-bottom: 0;
 }
 
 .project p {
@@ -522,6 +518,10 @@ html.reveal-enabled .work-reveal-item.is-revealed {
   .work {
     grid-template-columns: 1fr 1fr;
     column-gap: 3rem;
+  }
+
+  .work-heading {
+    grid-column: 1 / -1;
   }
 }
 

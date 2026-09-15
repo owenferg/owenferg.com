@@ -309,7 +309,7 @@ function updateLegend(colors: readonly string[], labels: readonly string[]): voi
 
 function initializeProjectReveals(): void {
   const workItems = Array.from(
-    document.querySelectorAll<HTMLElement>(".work-col > .heading, .project"),
+    document.querySelectorAll<HTMLElement>(".work > .heading, .work > .project"),
   );
   if (workItems.length === 0 || !("IntersectionObserver" in window)) {
     return;
