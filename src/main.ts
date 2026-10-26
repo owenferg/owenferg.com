@@ -126,7 +126,7 @@ const STATE_NAMES: Record<string, string> = {
 const definitions: Record<StatisticMode, StatisticDefinition> = {
   growth: {
     mode: "growth",
-    title: "population change, 2020–2024",
+    title: "Population change, 2020–2024",
     field: "growthPct",
     thresholds: [-5, -1, 1, 5],
     colors: ["#4c216d", "#76518e", "#c9bdb0", "#d1ad3b", "#f2d95c"],
@@ -139,7 +139,7 @@ const definitions: Record<StatisticMode, StatisticDefinition> = {
   },
   income: {
     mode: "income",
-    title: "median household income, 2024",
+    title: "Median household income, 2024",
     field: "medianHouseholdIncome",
     thresholds: incomeThresholds,
     colors: ["#431b33", "#7a3049", "#af5159", "#d77b63", "#efb878"],
@@ -241,7 +241,7 @@ function applyMode(mode: MapMode): void {
     legendElement.setAttribute("aria-hidden", "true");
     updateLegend(
       [PERSONAL_SELECTED_FILL, PERSONAL_FILL],
-      ["my domain name", "not my domain name"],
+      ["My domain name", "Not my domain name"],
     );
     sourceLineElement.hidden = false;
     sourceLineElement.classList.add("is-placeholder");
@@ -251,7 +251,7 @@ function applyMode(mode: MapMode): void {
   }
 
   if (mode === "music") {
-    titleElement.textContent = "music artists I listen to by state";
+    titleElement.textContent = "Music artists I listen to by state";
     document.documentElement.dataset.mapTheme = "music";
     renderer.svg.setAttribute(
       "aria-label",
@@ -264,7 +264,7 @@ function applyMode(mode: MapMode): void {
     legendElement.removeAttribute("aria-hidden");
     updateLegend(
       [NO_ARTISTS_FILL, ...MUSIC_COLORS],
-      ["0 artists", "lowest 20%", "20–40%", "40–60%", "60–80%", "highest 20%"],
+      ["0 artists", "Lowest 20%", "20–40%", "40–60%", "60–80%", "Highest 20%"],
     );
     sourceLineElement.hidden = false;
     sourceLineElement.classList.remove("is-placeholder");
@@ -429,9 +429,9 @@ function showTooltip(details: CountyPointerDetails): void {
     const definition = definitions[mode];
     const value = county?.[definition.field];
     tooltipValue.textContent =
-      typeof value === "number" ? definition.formatValue(value) : "data unavailable";
+      typeof value === "number" ? definition.formatValue(value) : "Data unavailable";
   } else {
-    tooltipValue.textContent = "data unavailable";
+    tooltipValue.textContent = "Data unavailable";
   }
 
   tooltip.hidden = false;
