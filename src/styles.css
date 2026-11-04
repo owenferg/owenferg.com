@@ -2,17 +2,25 @@
   box-sizing: border-box;
 }
 
+/* everything is sized in rem, and 1rem scales with the viewport width so the
+   layout keeps the mockup's proportions (mockup drawn ~860px wide) */
+html {
+  font-size: calc(100vw / 860 * 16);
+}
+
 body {
   margin: 0;
   background: #fff;
   color: #1e1e1e;
   font-family: "Nunito", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 header {
   position: sticky;
   top: 0;
-  padding: 2rem 2.5rem 1rem;
+  padding: 2rem 1.6rem 1rem;
   background: #fff;
   z-index: 1;
 }
@@ -20,13 +28,14 @@ header {
 h1 {
   margin: 0;
   font-weight: 600;
-  font-size: 2.5rem;
-  letter-spacing: 0.5em;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
   transition: font-size 0.2s;
 }
 
 .tagline {
-  margin: 0.25rem 0 3rem;
+  margin: 0 0 3.5rem;
   font-size: 0.9rem;
 }
 
@@ -35,7 +44,7 @@ h1 {
 }
 
 .scrolled h1 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 .scrolled .tagline {
@@ -50,15 +59,15 @@ nav {
 
 nav button,
 .box {
-  border: 2px solid #1e1e1e;
-  border-radius: 8px;
+  border: 0.125rem solid #1e1e1e;
+  border-radius: 0.5rem;
   background: #fff;
   font: inherit;
 }
 
 nav button {
-  padding: 0.15rem 0.5rem;
-  font-size: 1.1rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 1.25rem;
   cursor: pointer;
 }
 
@@ -67,12 +76,11 @@ nav button.active {
 }
 
 main {
-  padding: 1rem 2.5rem 4rem;
-  max-width: 1100px;
+  padding: 0.5rem 1.6rem 4rem;
 }
 
 .intro {
-  max-width: 40rem;
+  max-width: 31rem;
   margin: 0 auto 2rem;
   text-align: center;
 }
@@ -80,25 +88,26 @@ main {
 .box {
   display: grid;
   place-items: center;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 
 /* about */
 .about {
   display: flex;
-  gap: 3rem;
+  gap: 3.5rem;
   align-items: flex-start;
 }
 
 .about p {
   flex: 1;
+  max-width: 31rem;
   margin-top: 0;
 }
 
 .picture {
-  width: 250px;
-  height: 240px;
-  margin-top: 1rem;
+  width: 15.5rem;
+  height: 15rem;
+  margin-left: auto;
 }
 
 /* web cartography */
@@ -115,31 +124,31 @@ main {
 }
 
 .project p {
-  max-width: 300px;
+  max-width: 18rem;
 }
 
 .carousel {
   position: relative;
-  width: 300px;
-  height: 200px;
-  margin: 20px;
+  width: 16.5rem;
+  height: 10.5rem;
+  margin: 1.5rem 2.5rem;
   flex-shrink: 0;
 }
 
 .card {
   position: absolute;
   inset: 0;
-  border: 2px solid #1e1e1e;
-  border-radius: 16px;
+  border: 0.125rem solid #1e1e1e;
+  border-radius: 1rem;
 }
 
 .card:nth-child(1) {
-  translate: -28px -20px;
+  translate: -1.75rem -1.3rem;
   background: #b2f2bb;
 }
 
 .card:nth-child(2) {
-  translate: 12px 12px;
+  translate: 0.75rem 0.75rem;
   background: #ffc9c9;
 }
 
@@ -150,47 +159,47 @@ main {
 .arrow {
   position: absolute;
   top: 50%;
-  width: 60px;
-  height: 52px;
+  width: 3.75rem;
+  height: 3.25rem;
   translate: 0 -50%;
-  border: 2px solid #1e1e1e;
-  border-radius: 10px;
+  border: 0.125rem solid #1e1e1e;
+  border-radius: 0.6rem;
   background: #ffec99;
   cursor: pointer;
 }
 
 .prev {
-  left: -40px;
+  left: -2.5rem;
 }
 
 .next {
-  right: -40px;
+  right: -2.5rem;
 }
 
 /* music */
 .music {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: 3.5rem;
 }
 
 .embeds {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  width: 300px;
+  gap: 1.25rem;
+  width: 18.5rem;
 }
 
 .soundcloud {
-  height: 64px;
+  height: 4rem;
 }
 
 .youtube {
-  height: 100px;
+  height: 6.25rem;
 }
 
 .music p {
-  max-width: 300px;
+  max-width: 18rem;
   margin-top: 0;
 }
 
@@ -206,14 +215,18 @@ main {
 }
 
 .icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 0.6rem;
   background: #a5d8ff;
 }
 
-/* phones */
+/* phones: stop scaling with the viewport and stack everything */
 @media (max-width: 700px) {
+  html {
+    font-size: 16px;
+  }
+
   header,
   main {
     padding-left: 1rem;
@@ -233,8 +246,12 @@ main {
     align-items: center;
   }
 
+  .picture {
+    margin-left: 0;
+  }
+
   .carousel {
-    width: 240px;
-    height: 160px;
+    width: 15rem;
+    height: 10rem;
   }
 }
