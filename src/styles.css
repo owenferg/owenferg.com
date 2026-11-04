@@ -14,8 +14,8 @@ html {
 
 body {
   margin: 0;
-  background: #fff;
-  color: #1e1e1e;
+  background: #1e1e1e;
+  color: #fff;
   font-family: "Nunito", sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
@@ -25,7 +25,7 @@ header {
   position: sticky;
   top: 0;
   padding: 2rem 1.6rem 1rem;
-  background: #fff;
+  background: #1e1e1e;
   z-index: 1;
 }
 
@@ -63,10 +63,11 @@ nav {
 
 nav button,
 .box {
-  border: 0.125rem solid #1e1e1e;
+  border: 0.125rem solid #fff;
   border-radius: 0.5rem;
-  background: #fff;
+  background: #1e1e1e;
   font: inherit;
+  color: inherit;
 }
 
 nav button {
@@ -77,6 +78,7 @@ nav button {
 
 nav button.active {
   background: #a5d8ff;
+  color: #1e1e1e;
 }
 
 main {
@@ -142,7 +144,7 @@ main {
 .card {
   position: absolute;
   inset: 0;
-  border: 0.125rem solid #1e1e1e;
+  border: 0.125rem solid #fff;
   border-radius: 1rem;
 }
 
@@ -166,7 +168,7 @@ main {
   width: 3.75rem;
   height: 3.25rem;
   translate: 0 -50%;
-  border: 0.125rem solid #1e1e1e;
+  border: 0.125rem solid #fff;
   border-radius: 0.6rem;
   background: #ffec99;
   cursor: pointer;
