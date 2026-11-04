@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 /* everything is sized in rem, and 1rem scales with the viewport width so the
    layout keeps the mockup's proportions (mockup drawn ~860px wide) */
 html {
